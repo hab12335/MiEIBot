@@ -550,16 +550,12 @@ class Database:
             self.lock.release()
 
     def find_student(self, name):
-        nice_try = escape(name)
-        query_string = '%'
-        for word in nice_try.split():
-            query_string += (word + '%')
-
+        query_string = "%{0}%".format("%".join(name.split()))
         self.lock.acquire()
         try:
             self.cursor.execute("SELECT internal_id, name, abbreviation "
                                 "FROM Students "
-                                "WHERE name LIKE '{}'".format(query_string))
+                                "WHERE name LIKE '?'", (query_string, ))
             return set(self.cursor.fetchall())
         finally:
             self.lock.release()
