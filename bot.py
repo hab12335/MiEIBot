@@ -85,8 +85,8 @@ def populate_settings(database):
     db_cursor.execute(
         'SELECT name, value'
         ' FROM Settings')
-    for row in db_cursor.fetchall():
-        settings[row[0]] = row[1]
+    global settings
+    settings = {row[0]: row[1] for row in db_cursor.fetchall()}
 
 
 def populate_parser_data(database):
