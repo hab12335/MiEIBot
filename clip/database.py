@@ -539,7 +539,7 @@ class Database:
                     'institution': instance[6]
                 })
         finally:
-            self.lock.acquire()
+            self.lock.release()
         return class_instances
 
     def commit(self):
